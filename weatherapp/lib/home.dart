@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
         title: "$date".text.gray700.make(),
         actions: [
           IconButton(onPressed: (){}, icon: Icon(Icons.light_mode, color: Vx.gray600,)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.more_vert, color: Vx.gray600,))
+          IconButton(onPressed: (){}, icon: Icon(Icons.more_vert, color: Vx.gray400,))
         ],
       ),
       body: Column(),
