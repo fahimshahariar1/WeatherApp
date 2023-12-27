@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:intl/intl.dart';
 import 'package:weatherapp/consts/colors.dart';
 import 'package:weatherapp/consts/images.dart';
 import 'package:weatherapp/consts/strings.dart';
+import 'package:weatherapp/controller/maincontroller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,22 +21,30 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var date = DateFormat("yMMMMd").format(DateTime.now());
+    var theme = Theme.of(context);
+    var controller = Get.put(MainController());
 
     return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: "$date".text.gray700.make(),
+        backgroundColor: Colors.transparent,
+        title: "$date".text.gray700.color(theme.primaryColor).make(),
         actions: [
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.light_mode,
-                color: Vx.gray600,
-              )),
+          Obx(
+                ()=> IconButton(
+                onPressed: () {
+                  controller.changeTheme();
+                },
+                icon: Icon(controller.isDark.value?
+                  Icons.light_mode: Icons.dark_mode,
+                  color: theme.iconTheme.color,
+                )),
+          ),
           IconButton(
               onPressed: () {},
               icon: Icon(
                 Icons.more_vert,
-                color: Vx.gray400,
+                color: theme.iconTheme.color,
               ))
         ],
       ),
@@ -46,6 +58,7 @@ class _HomePageState extends State<HomePage> {
               Text(
                 "DHAKA",
                 style: GoogleFonts.poppins(
+                  color: theme.primaryColor,
                     fontSize: 32, letterSpacing: 3, fontWeight: FontWeight.bold),
               ),
               Row(
@@ -61,13 +74,13 @@ class _HomePageState extends State<HomePage> {
                     TextSpan(
                         text: "22$degree",
                         style: TextStyle(
-                          color: Vx.gray900,
+                          color: theme.primaryColor,
                           fontSize: 64,
                         )),
                     TextSpan(
                         text: "Haze",
                         style: TextStyle(
-                          color: Vx.gray700,
+                          color: theme.primaryColor,
                           fontSize: 14,
                           letterSpacing: 3,
                         )),
@@ -81,16 +94,16 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {},
                       icon: Icon(
                         Icons.expand_less,
-                        color: Vx.gray400,
+                        color: theme.iconTheme.color,
                       ),
-                      label: "18$degree".text.make()),
+                      label: "18$degree".text.color(theme.iconTheme.color).make()),
                   TextButton.icon(
                       onPressed: () {},
                       icon: Icon(
                         Icons.expand_more,
-                        color: Vx.gray400,
+                        color: theme.iconTheme.color,
                       ),
-                      label: "27$degree".text.make()),
+                      label: "27$degree".text.color(theme.iconTheme.color).make()),
                 ],
               ),
               20.heightBox,
@@ -149,7 +162,7 @@ class _HomePageState extends State<HomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  "Next 7 Days".text.semiBold.size(16).make(),
+                  "Next 7 Days".text.semiBold.size(16).color(theme.primaryColor).make(),
                   TextButton(onPressed: (){}, child: "View All".text.make())
                 ],
               ),
@@ -161,25 +174,26 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (BuildContext context, int index){
                     var day = DateFormat("EEEE").format(DateTime.now().add(Duration(days: index + 1)));
                     return Card(
+                      color: theme.cardColor,
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(child: day.text.semiBold.make()),
+                            Expanded(child: day.text.semiBold.color(theme.primaryColor).make()),
                             Expanded(
                               child: TextButton.icon(
                                   onPressed: () {},
                                   icon: Image.asset("assets/weather/50n.png", width: 40,
                                   ),
-                                  label: "27$degree".text.black.make()),
+                                  label: "27$degree".text.color(theme.primaryColor).make()),
                             ),
                             RichText(text: TextSpan(
                               children: [
                                 TextSpan(
                                   text: "28$degree /",
                                   style: TextStyle(
-                                    color: Vx.gray800,
+                                 color: theme.primaryColor,
                                     fontSize: 16,
                                   )
                                 ),
@@ -187,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                                 TextSpan(
                                     text: " 18$degree",
                                     style: TextStyle(
-                                      color: Vx.gray600,
+                                      color: theme.iconTheme.color,
                                       fontSize: 16,
                                     )
                                 )
